@@ -17,77 +17,133 @@ public class Contacts {
     //  search contact by name
     //  delete existing contact
 
+//    private static final ContactsManagerApplication.Contact contactsDao = new ContactsManagerApplication.Contact();
 
+    public static class Contact {
+        private String name;
+        private String number;
 
-    public static void main(String[] args) throws IOException {
-
-        //CREATE FILES AND FOLDERS
-        String directory = "data";
-        String filename = "contact.txt";
-
-        Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(directory, filename);
-
-        if (Files.notExists(dataDirectory)) {
-            Files.createDirectories(dataDirectory);
-        }
-        if (!Files.exists(dataFile)) {
-            Files.createFile(dataFile);
+        public Contact(String name, String number) {
+            this.name = name;
+            this.number = number;
         }
 
-        //ADD TO CONTACTs FILE
-        List<String> contacts = Arrays.asList("Ralph | 856-555-1234", "Crystal | 203-555-1234",
-                "Antonio | 485-555-8537");
+        public String getName() {
+            return name;
+        }
 
-        //CREATE PATH TO EXTRACT FROM
-        Path filepath = Paths.get("data", "contact.txt");
+        public String getNumber() {
+            return number;
+        }
 
-        //WRITE TO FILE USING PATH
-        Files.write(filepath, contacts);
+        public void setName(String name) {
+            this.name = name;
+        }
 
-//        //ADD CONTACT
+        public void setNumber(String number) {
+            this.number = number;
+        }
+    }
+
+    public static void showContacts() {
+        System.out.printf("| %-20s | %-15 |%n", "Name", "Phone Number");
+//        System.out.println();
+//        System.out.println(" Name | Number ");
+//        System.out.println("---------------");
+//        System.out.println(contactsDao.findAll());
+//        System.out.println();
+    }
+
+
+    public static void addContact() {
+        ContactsManagerApplication.Contact newContact = new ContactsManagerApplication.Contact(
+                ContactsManagerApplication.Input.getString("name: "),
+                ContactsManagerApplication.Input.getString("number: ")
+        );
+
+        try {
+            contactsDao.add(newContact);
+            System.out.println("Contact added!");
+        } catch (IOException e) {
+            System.out.println("Error adding a new contact!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void searchByName() {
+
+    }
+
+    public static void searchByNumber() {
+
+    }
+
+    public static void removeContact() {
+        String name = ContactsManagerApplication.Input.getString("Enter the name of the contact to remove: ");
+        ContactsManagerApplication.Contacts toRemove = contactsDao.findByName(name);
+        if (toRemove == null) {
+            System.out.println("Sorry, no contact with that name was found.");
+            return;
+        }
+        contactsDao.delete(toRemove);
+        System.out.println("Contact removed!");
+    }
+
+    static class Input {
+        private static Scanner scanner = new Scanner(System.in);
+
+        public static int getInt() {
+            return getInt("Please enter an integer: ");
+        }
+
+        public static int getInt(String prompt) {
+            System.out.print(prompt);
+            String userInput = scanner.nextLine();
+            try {
+                return Integer.valueOf(userInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Sorry, '" + userInput + "' is not a valid integer.");
+                return getInt(prompt);
+            }
+        }
+
+        public static String getString(String prompt) {
+            System.out.print(prompt);
+            return scanner.nextLine();
+        }
+
+        public static String getString() {
+            return getString("Please enter a string: ");
+        }
+    }
+
+
+
+    public void findAll(){
+        for (int i = 0; i < contactsList.size(); i += 1) {
+            if (i % 2 == 0) {
+                System.out.print(contactsList.get(i));
+            } else {
+                System.out.println(" | " + contactsList.get(i));
+            }
+        }
+    }
+
+//    public void add(){
 //        Files.write(
 //                filepath,
-//                List.of("John | 972-555-4823"), // list with one item
+//                List.of(), // list with one item
 //                StandardOpenOption.APPEND
 //        );
+//    }
 
-        //CALL LIST
-        List<String> contactsList = Files.readAllLines(filepath);
-
-        //PRINT ALL CONTACTS
-        System.out.println("\nName | Phone Number \n-------------------");
-
-        for (int i = 0; i < contactsList.size(); i += 1) {
-            System.out.println(contactsList.get(i));
-
-//            if (i % 2 == 0) {
-//                System.out.print(contactsList.get(i));
-//            } else {
-//                System.out.println(" | " + contactsList.get(i));
-//            }
-        }
-
-        //ADD CONTACT
-        public void add(object) {
-            Files.write(
-                    filepath,
-                    List.of(object), // list with one item
-                    StandardOpenOption.APPEND
-            );
-        }
+//    static interface Contacts {
+//        List<Contact> findAll();
+//        Contact findByName(String name);
+//        Contact findByNumber(String number);
+//        void add(Contact Contact) throws IOException;
+//        void delete(Contact contact);
+//    }
 
 
-
-
-//        for (String line : lines) {
-//            if (line.equals("milk")) {
-//                newList.add("cream");
-//                continue;
-//            }
-//            newList.add(line);
-//        }
-
-//        Files.write(filepath, newList);
-    }
 }

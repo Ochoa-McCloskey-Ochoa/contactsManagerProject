@@ -5,68 +5,26 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
-
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class ContactsManagerApplication extends Contacts {
 
-    private static final Contact contactsDao = new Contact();
 
-    public static void showContacts() {
-        System.out.println();
-        System.out.println(" Name | Number ");
-        System.out.println("---------------");
-        System.out.println(contactsDao.findAll());
-        System.out.println();
-    }
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
 
+        Contact contact = new Contact("name", "number");
 
-    public static void addContact() {
-        Contact newContact = new Contact(
-                Input.getString("name: "),
-                Input.getString("number: ")
-        );
-
-        try {
-            contactsDao.add(newContact);
-            System.out.println("Contact added!");
-        } catch (IOException e) {
-            System.out.println("Error adding a new contact!");
-            e.printStackTrace();
-        }
-    }
-
-    public static void searchByName() {
-
-    }
-
-    public static void searchByNumber() {
-
-    }
-
-    public static void removeContact() {
-        String name = Input.getString("Enter the name of the contact to remove: ");
-        Contacts toRemove = contactsDao.findByName(name);
-        if (toRemove == null) {
-            System.out.println("Sorry, no contact with that name was found.");
-            return;
-        }
-        contactsDao.delete(toRemove);
-        System.out.println("Contact removed!");
-    }
-
-    public static void main(String[] args) throws IOException  {
         System.out.println("--------------------------------------------------");
         System.out.println(" > Welcome to the contacts manager!");
         System.out.println("--------------------------------------------------");
 
         while (true) {
             System.out.println("What would you like to do?");
-
             System.out.println("0 - Exit");
             System.out.println("1 - View Directory.data.Contacts");
             System.out.println("2 - Add a new Contact");
@@ -99,86 +57,62 @@ public class ContactsManagerApplication extends Contacts {
                     break;
             }
         }
-    }
 
-    static class Input {
-        private static Scanner scanner = new Scanner(System.in);
+        //CREATE FILES AND FOLDERS
+//        String directory = "data";
+//        String filename = "contact.txt";
 
-        public static int getInt() {
-            return getInt("Please enter an integer: ");
-        }
+//        Path dataDirectory = Paths.get(directory);
+//        Path dataFile = Paths.get(directory, filename);
 
-        public static int getInt(String prompt) {
-            System.out.print(prompt);
-            String userInput = scanner.nextLine();
-            try {
-                return Integer.valueOf(userInput);
-            } catch (NumberFormatException e) {
-                System.out.println("Sorry, '" + userInput + "' is not a valid integer.");
-                return getInt(prompt);
-            }
-        }
+//        if (Files.notExists(dataDirectory)) {
+//            Files.createDirectories(dataDirectory);
+//        }
+//        if (!Files.exists(dataFile)) {
+//            Files.createFile(dataFile);
+//        }
 
-        public static String getString(String prompt) {
-            System.out.print(prompt);
-            return scanner.nextLine();
-        }
+        //ADD TO CONTACTs FILE
+//        List<String> contacts = Arrays.asList("Ralph | 856-555-1234", "Crystal | 203-555-1234",
+//                "Antonio | 485-555-8537");
 
-        public static String getString() {
-            return getString("Please enter a string: ");
-        }
-    }
+        //CREATE PATH TO EXTRACT FROM
+//        Path filepath = Paths.get("data", "contact.txt");
 
+        //WRITE TO FILE USING PATH
+//        Files.write(filepath, contacts);
 
-    public static class Contact {
-        private String name;
-        private String number;
-
-        public Contact(String name, String number) {
-            this.name = name;
-            this.number = number;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getNumber() {
-            return number;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setNumber(String number) {
-            this.number = number;
-        }
-    }
-
-    public void findAll(){
-        for (int i = 0; i < contactsList.size(); i += 1) {
-            if (i % 2 == 0) {
-                System.out.print(contactsList.get(i));
-            } else {
-                System.out.println(" | " + contactsList.get(i));
-            }
-        }
-    }
-
-//    public void add(){
+//        //ADD CONTACT
 //        Files.write(
 //                filepath,
-//                List.of(), // list with one item
+//                List.of("John | 972-555-4823"), // list with one item
 //                StandardOpenOption.APPEND
 //        );
-//    }
 
-    static interface Contacts {
-        List<Contact> findAll();
-        Contact findByName(String name);
-        Contact findByNumber(String number);
-        void add(Contact Contact) throws IOException;
-        void delete(Contact contact);
+        //CALL LIST
+//        List<String> contactsList = Files.readAllLines(filepath);
+
+        //PRINT ALL CONTACTS
+//        System.out.println("\nName | Phone Number \n-------------------");
+
+//        for (int i = 0; i < contactsList.size(); i += 1) {
+//            System.out.println(contactsList.get(i));
+
+//            if (i % 2 == 0) {
+//                System.out.print(contactsList.get(i));
+//            } else {
+//                System.out.println(" | " + contactsList.get(i));
+//            }
     }
+
+    //ADD CONTACT
+//        public void add (object) {
+//                Files.write(
+//                        filepath,
+//                        List.of(object), // list with one item
+//                        StandardOpenOption.APPEND
+//                );
+//        }
+
+
 }
