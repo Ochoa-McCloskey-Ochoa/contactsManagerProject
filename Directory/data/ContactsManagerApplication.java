@@ -1,3 +1,5 @@
+package Directory.data;
+
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,7 +68,7 @@ public class ContactsManagerApplication extends Contacts {
             System.out.println("What would you like to do?");
 
             System.out.println("0 - Exit");
-            System.out.println("1 - View Contacts");
+            System.out.println("1 - View Directory.data.Contacts");
             System.out.println("2 - Add a new Contact");
             System.out.println("3 - Search by Number");
             System.out.println("4 - Search by Name");
