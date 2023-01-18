@@ -1,20 +1,43 @@
-public class ContactsManagerApplication {
+import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
-    private static final Contacts contactsDao = new contact();
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ContactsManagerApplication extends Contacts {
+
+    private static final Contact contactsDao = new Contact();
 
     public static void showContacts() {
         System.out.println();
         System.out.println(" Name | Number ");
         System.out.println("---------------");
-        for (Contacts contact : contactsDao.findAll()) {
-            System.out.printf(
-                    "%s | %s\n",
-                    contact.getName(),
-                    contact.getNumber()
-            );
-        }
+        System.out.println(contactsDao.findAll());
         System.out.println();
     }
+
+
+
+    public void add{
+        Files.write(
+                filepath,
+                List.of(), // list with one item
+                StandardOpenOption.APPEND
+        );
+    }
+
+
+
+
+
+
+
 
     public static void addContact() {
         Contact newContact = new Contact(
@@ -50,7 +73,7 @@ public class ContactsManagerApplication {
         System.out.println("Contact removed!");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException  {
         System.out.println("--------------------------------------------------");
         System.out.println(" > Welcome to the contacts manager!");
         System.out.println("--------------------------------------------------");
@@ -90,5 +113,101 @@ public class ContactsManagerApplication {
                     break;
             }
         }
+    }
+
+    static class Input {
+        private static Scanner scanner = new Scanner(System.in);
+
+        public static int getInt() {
+            return getInt("Please enter an integer: ");
+        }
+
+        public static int getInt(String prompt) {
+            System.out.print(prompt);
+            String userInput = scanner.nextLine();
+            try {
+                return Integer.valueOf(userInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Sorry, '" + userInput + "' is not a valid integer.");
+                return getInt(prompt);
+            }
+        }
+
+        public static String getString(String prompt) {
+            System.out.print(prompt);
+            return scanner.nextLine();
+        }
+
+        public static String getString() {
+            return getString("Please enter a string: ");
+        }
+    }
+
+    public static class Contact {
+        private String name;
+        private String number;
+
+        public Contact(String name, String number) {
+            this.name = name;
+            this.number = number;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getNumber() {
+            return number;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setNumber(String number) {
+            this.number = number;
+        }
+
+
+
+        String directory = "data";
+        String filename = "contact.txt";
+
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+
+        if (Files.notExists(dataDirectory)) {
+            Files.createDirectories(dataDirectory);
+        }
+        if (!Files.exists(dataFile)) {
+            Files.createFile(dataFile);
+        }
+
+        List<String> contacts = Arrays.asList("Ralph", "856-555-1234", "Crystal", "203-555-1234",
+                "Antonio", "485-555-8537");
+
+        Path filepath = Paths.get("data", "contact.txt");
+    Files.write(filepath, contacts);
+        java.util.List<String> contactsList = Files.readAllLines(filepath);
+
+        public void findAll(){
+            for (int i = 0; i < contactsList.size(); i += 1) {
+                if (i % 2 == 0) {
+                    System.out.print(contactsList.get(i));
+                } else {
+                    System.out.println(" | " + contactsList.get(i));
+                }
+            }
+        }
+
+
+    }
+
+    static interface Contacts {
+        List<Contact> findAll();
+        Contact findByName(String name);
+        Contact findByNumber(String number);
+        void add(Contact Contact) throws IOException;
+        void delete(Contact contact);
     }
 }
