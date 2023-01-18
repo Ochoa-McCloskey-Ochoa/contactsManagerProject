@@ -23,22 +23,6 @@ public class ContactsManagerApplication extends Contacts {
     }
 
 
-
-    public void add{
-        Files.write(
-                filepath,
-                List.of(), // list with one item
-                StandardOpenOption.APPEND
-        );
-    }
-
-
-
-
-
-
-
-
     public static void addContact() {
         Contact newContact = new Contact(
                 Input.getString("name: "),
@@ -143,6 +127,7 @@ public class ContactsManagerApplication extends Contacts {
         }
     }
 
+
     public static class Contact {
         private String name;
         private String number;
@@ -167,41 +152,25 @@ public class ContactsManagerApplication extends Contacts {
         public void setNumber(String number) {
             this.number = number;
         }
+    }
 
-
-
-        String directory = "data";
-        String filename = "contact.txt";
-
-        Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(directory, filename);
-
-        if (Files.notExists(dataDirectory)) {
-            Files.createDirectories(dataDirectory);
-        }
-        if (!Files.exists(dataFile)) {
-            Files.createFile(dataFile);
-        }
-
-        List<String> contacts = Arrays.asList("Ralph", "856-555-1234", "Crystal", "203-555-1234",
-                "Antonio", "485-555-8537");
-
-        Path filepath = Paths.get("data", "contact.txt");
-    Files.write(filepath, contacts);
-        java.util.List<String> contactsList = Files.readAllLines(filepath);
-
-        public void findAll(){
-            for (int i = 0; i < contactsList.size(); i += 1) {
-                if (i % 2 == 0) {
-                    System.out.print(contactsList.get(i));
-                } else {
-                    System.out.println(" | " + contactsList.get(i));
-                }
+    public void findAll(){
+        for (int i = 0; i < contactsList.size(); i += 1) {
+            if (i % 2 == 0) {
+                System.out.print(contactsList.get(i));
+            } else {
+                System.out.println(" | " + contactsList.get(i));
             }
         }
-
-
     }
+
+//    public void add(){
+//        Files.write(
+//                filepath,
+//                List.of(), // list with one item
+//                StandardOpenOption.APPEND
+//        );
+//    }
 
     static interface Contacts {
         List<Contact> findAll();
