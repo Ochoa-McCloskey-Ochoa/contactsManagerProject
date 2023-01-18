@@ -9,10 +9,17 @@ import java.util.List;
 
 public class Contacts {
 
+//  set up contact.txt
+    //  view contacts
+    //  add names and phone numbers
+    //  search contact by name
+    //  delete existing contact
+
+
     public static void main(String[] args) throws IOException {
 
         String directory = "data";
-        String filename = "contacts.txt";
+        String filename = "contact.txt";
 
         Path dataDirectory = Paths.get(directory);
 
@@ -22,37 +29,42 @@ public class Contacts {
             Files.createDirectories(dataDirectory);
         }
 
-        if (! Files.exists(dataFile)) {
+        if (!Files.exists(dataFile)) {
             Files.createFile(dataFile);
         }
 
-        List<String> contacts = Arrays.asList("Ralph", "Crystal", "Antonio");
+        List<String> contacts = Arrays.asList("Ralph", "856-555-1234", "Crystal", "203-555-1234",
+                "Antonio", "485-555-8537");
 
-        Path filepath = Paths.get("data", "contacts.txt");
+        Path filepath = Paths.get("data", "contact.txt");
 
         Files.write(filepath, contacts);
 
         List<String> contactsList = Files.readAllLines(filepath);
 
-        System.out.println("contacts = " + filename);
+//        System.out.println("contacts = " + filename);
+
+        System.out.println("Name | Phone Number \n-------------------");
 
         for (int i = 0; i < contactsList.size(); i += 1) {
-
-            System.out.println((i + 1) + ": " + contactsList.get(i));
-
+            if (i % 2 == 0) {
+                System.out.print(contactsList.get(i));
+            } else {
+                System.out.println(" | " + contactsList.get(i));
+            }
         }
 
         Files.write(
                 filepath,
-                List.of("John"), // list with one item
+                List.of("John", "972-555-4823"), // list with one item
                 StandardOpenOption.APPEND
         );
 
 
-        System.out.println("contacts = " + contactsList);
-
-
         List<String> lines = Files.readAllLines(filepath);
+
+//        To add a list of all the items in the array
+//        System.out.println("contacts = " + contactsList);
 
         List<String> newList = new ArrayList<>();
 
@@ -64,6 +76,6 @@ public class Contacts {
 //            newList.add(line);
 //        }
 
-        Files.write(filepath, newList);
+//        Files.write(filepath, newList);
     }
 }
