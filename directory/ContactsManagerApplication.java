@@ -8,14 +8,10 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 public class ContactsManagerApplication {
-
-
     public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
-
 
         System.out.println("--------------------------------------------------");
         System.out.println(" > Welcome to the contacts manager!");
@@ -40,7 +36,6 @@ public class ContactsManagerApplication {
                 }
                 case 1 -> Contacts.showContacts();
                 case 2 -> {
-
                     Contacts contact = new Contacts("name", "number");
                     contact.addContact();
                 }
@@ -50,7 +45,5 @@ public class ContactsManagerApplication {
                 default -> System.out.println("Unknown selection, " + choice + ".");
             }
         }
-
     }
-
 }
